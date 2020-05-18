@@ -45,27 +45,27 @@ Stock Model:
 # -----------------------------------------------------------------------------#
 
 # --------------------- Simulation Parameters ---------------------------------#
-i_num_sim = 200 #10000
+i_num_sim = 5000 #10000
 i_num_steps = 55 + 5 + 5 # projection year
 i_step_length = 48 # Step Per years (in calculation)
 d_deltaT = 1 / i_step_length
 # ------ Ouptut
 i_outpoutstep_length = 12 # 12: month, 1: year
-output_type = 'XLSX' #   'DB'   'XLSX'   'CSV'
+output_type = 'CSV' #   'DB'   'XLSX'   'CSV'
 
 
 # --------------------- Random Generation -------------------------------------#
 seed_rand = True
-seed_val = 32435
+seed_val = 453624
 
 # --------------------- Technical ---------------------------------------------#
-rn_sim = True # if True, asset return will be the yield curve minus div yield
+rn_sim = False # if True, asset return will be the yield curve minus div yield
 
 # ---------------------- Files Path -------------------------------------------#
 # Input
-excel_parameters = 'run_1_201812_param.xlsx' 
+excel_parameters = 'RW_param.xlsx' 
 # Outputs
-name_output = 'run_1_RN_201812'
+name_output = 'RW'
 
 
 
@@ -322,14 +322,15 @@ if output_type == 'CSV':
 
 spath = list(CWD.rglob(excel_parameters))[0].parent.as_posix() + "/" + name_output + '_exp_returns.csv'
 # ------------------------ Calculate the expected returns
-dF_temp = dF_YC_Aligned * rn_sim # add YC only for Risk neutral cases
+dF_temp = dF_YC_Aligned  # add YC only for Risk neutral cases
 # Develop the dataframe with the stock indexes
 dF_temp = dF_temp.assign(key=1).merge(dF_StockParam.reset_index().assign(key=1), on='key').drop('key', 1)
-# Develop the dataframe with the stock indexes
-dF_temp['ExpRet'] = dF_temp['Return'] * (1 -  rn_sim) # add Returns only for RW cases
-dF_temp['ExpRet'] = dF_temp['ExpRet'] + dF_temp['Forward'] - dF_temp['Dividend']
+# Calculate the expected return (annualised)
+if rn_sim == True:
+    dF_temp['ExpRet'] = dF_temp['Forward']
+else:
+    dF_temp['ExpRet'] = dF_temp['Return']
+# Take out the dividends
+dF_temp['ExpRet'] = dF_temp['ExpRet']  - dF_temp['Dividend']
 dF_temp = dF_temp[['Year', 'StockName', 'ExpRet']]
 dF_temp.to_csv(spath)
-
-
-

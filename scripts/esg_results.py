@@ -33,11 +33,11 @@ import libpw.esglib as esglib
 
 
 # ------------------------- Results to be loaded ------------------------------#
-name_input = 'run_1_RN_201812'
-input_type = 'XLSX' #  'DB'  'XLSX'    'CSV'
-input_funds = ['High', 'Mid', 'Low'] # only used if type = 'CSV'
+name_input = 'RW'
+input_type = 'CSV' #  'DB'  'XLSX'    'CSV'
+input_funds = ['4p5_9vol', '4p5_8vol', '5p5_9vol', '5p5_8vol', '3p5_9vol', '3p5_8vol'] # only used if type = 'CSV'
 i_inputstep_length = 12 # 12: month, 1: year
-rn_sim = True 
+rn_sim = False 
 
 
 # ----------------------------- Graph Parameters ------------------------------#
@@ -226,7 +226,8 @@ for i, asset in enumerate(lassets):
     axes[i].set_ylabel(asset)
     axes[i].set_yscale('log')
 
-
+spath = list(CWD.rglob(csv_loadfile_expret))[0].parent.as_posix() + "/" + name_input + '_1.png'
+fig.savefig(spath)
 
 
 
@@ -283,7 +284,8 @@ for i, asset in enumerate(lassets):
     axes[i,0].yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
 
 
-
+spath = list(CWD.rglob(csv_loadfile_expret))[0].parent.as_posix() + "/" + name_input + '_2.png'
+fig.savefig(spath)
 
 
 #%% ---------------------------------------------------------------------------#
@@ -367,6 +369,9 @@ axes[0,0].set_title('Asset Price')
 axes[0,1].set_title('Asset Return')
 axes[0,2].set_title('Asset Volatility')
   
+spath = list(CWD.rglob(csv_loadfile_expret))[0].parent.as_posix() + "/" + name_input + '_3.png'
+fig.savefig(spath)
+
 
 
 #%%#############################################################################

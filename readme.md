@@ -3,5 +3,5 @@
 
 
 
-![alt text](https://github.com/pascal-winter/esg/Esg_Percentile.png?raw=true)
-![alt text](https://github.com/pascal-winter/esg/Esg_Returns.png?raw=true)
+![alt text](https://github.com/pascal-winter/esg/blob/master/Esg_Percentile.png)
+![alt text](https://github.com/pascal-winter/esg/blob/master/Esg_Returns.png?raw=true)
